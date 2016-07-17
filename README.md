@@ -9,7 +9,7 @@ Let's make an app where you can create messages that persist in Core Data.
 4. Learn basics of fetching/saving with Core Data.
 
 ## Instructions
-Open up the project. We've set up a blank tableview controller and started `FISDataManager`. Your job is to setup core data, display your persistent `FISMessage` objects, and add an interface where users can create and save new messages.
+Open up the project. We've set up a blank tableview controller and started `DataManager`. Your job is to setup core data, display your persistent `FISMessage` objects, and add an interface where users can create and save new messages.
 
 ###Core Data Setup
 Before we work on any views, we need to prepare our models for core data. 
