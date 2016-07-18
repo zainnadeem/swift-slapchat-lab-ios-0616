@@ -35,42 +35,42 @@ Our `.xcdatamodeld` is setup, so now let's setup `DataStore` so that it can fetc
    - This is Data*Store*, so add a public `Array` property to hold your fetched objects. Name it `messages`.
    - Implement `fetchData` to create an `NSFetchRequest`, have your context `execute` it, and set the results to your `messages` array.
  
-That's it! Your model and data store are now ready to fetch and save `FISMessage`s.
+That's it! Your model and data store are now ready to fetch and save `Message`s.
 
 ###A Little More Setup
 
 #####Making Test Messages
 
-1. We can't display messages if we haven't created any! Let's do this in `FISTableViewController.m`.
+1. We can't display messages if we haven't created any! Let's do this in `TableViewController.m`.
     - Make a local array for storing messages. This will power your tableview's data source, and make it more self-contained.
-	- Import and make your dataStore a property. In `viewDidLoad`, initialize it via the singleton method. 
-	- Create a few `FISMessage`s. Remember, we can't just `alloc`/`init` them (*thanks, Core Data*)— use `+NSEntityDescription insertNewObjectForEntityForName:inManagedObjectContext:`. 
+	- Make your dataStore a property and initialize it. 
+	- Create a few `Message`s. Use `+NSEntityDescription insertNewObjectForEntityForName(_:inManagedObjectContext)`. 
 	- Don't forget to set your test messages' `content` and `createdAt` properties! 
-2. So now is when you'd want to `saveContext` so that these messages would persist in our database. BUT— since this is in `viewDidLoad`, that means that we'll be creating and saving new messages *every time we run our app*. Let's add some logic to prevent that.
+2. So now is when you'd want to `saveContext()` so that these messages would persist in our database. ***BUT— since this is in `viewDidLoad()`, that means that we'll be creating and saving new messages *every time we run our app*. Let's add some logic to prevent that.***
     - Make a new method called `generateTestData`. Dump all your message creation in there, and make your dataStore `saveContext` and `fetchData` at the end. 
-    - In `viewDidLoad`, `fetchData` and then pass your dataStore's messages to your local messages array.
-    - Logic time— `if`  your messages array is still empty, call `generateTestData` and pass them again.
+    - In `viewDidLoad()`, `fetchData()` and then pass your dataStore's messages to your local messages array.
+    - Logic time— `if`  your messages array is still empty, call `generateTestData()` and pass them again.
 
-3. Run it a couple times and either `NSLog` or breakpoint/`po` your local messages array to make sure you're not saving a ton of duplicates. Assuming all went well, we can finally get some stuff on the screen!
+3. Run it a couple times and either `print()` or breakpoint/`po` your local messages array to make sure you're not saving a ton of duplicates. Assuming all went well, we can finally get some stuff on the screen!
 
 ###View Time (Finally)
 *Less talk; more walk.*
 
 #####Messages TableView
-- Set your cell reuse id and make it a basic cell.
+- Set your cell reuse id and make it a "basicCell".
 - Set up your data source. Make each cell display the `content` of its corresponding message.
 
-Run it to make sure it works. Comment out your `generateTestData` check to *prove* that the messages are actually persisting. Revel in your persistent data's glory. 
+Run it to make sure it works. Comment out your `generateTestData()` check to *prove* that the messages are actually persisting. Revel in your persistent data's glory. 
 
 #####'Add Message' Interface
 Let's keep rollin' with our theme of "just do it":
 
-  1. Add a plus button to the navigation bar and link it to a new view controller. Name the class `FISAddMessageViewController`.
+  1. Add a plus button to the navigation bar and link it to a new view controller. Name the class `AddMessageViewController`.
   2. Add a save button and a text field. When you tap save, make it:
      -  create a new message with the contents of the text field,
      -  save the context,
      -  dismiss the view controller.
-  3. Cool! Except the new message didn't show up in our tableView... In your tableView controller, implement `viewWillAppear` so that it:     
+  3. Cool! Except the new message didn't show up in our tableView... In your tableView controller, override `viewWillAppear()` so that it:     
      - fetches data, 
      - updates your local messages, 
      - reloads the tableView.   
@@ -81,6 +81,6 @@ Let's keep rollin' with our theme of "just do it":
 ## Extra Credit
 
   1. Add a button that resorts the messages in the array to descending by the `createdAt` property.
-  2. Take your `generateTestData` method out of `FISTableViewController` and put it where it belongs (`FISDataStore`).
+  2. Take your `generateTestData()` method out of `TableViewController` and put it where it belongs (`DataStore`).
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/slapchat-add' title='SlapChat'>SlapChat</a> on Learn.co and start learning to code for free.</p>
