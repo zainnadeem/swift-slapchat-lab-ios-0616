@@ -11,7 +11,6 @@ import CoreData
 
 class DataStore {
     
-    var messages:[Message] = []
 
     static let sharedDataStore = DataStore()
     
@@ -32,52 +31,11 @@ class DataStore {
         }
     }
     
-        func fetchData ()
-        {
-            
-            var error:NSError? = nil
-            
-            let messagesRequest = NSFetchRequest(entityName: "Message")
-            
-            let createdAtSorter = NSSortDescriptor(key: "createdAt", ascending:true)
-            
-            messagesRequest.sortDescriptors = [createdAtSorter]
-            
-            do{
-            messages = try managedObjectContext.executeFetchRequest(messagesRequest) as! [Message]
-            }catch let nserror1 as NSError{
-                error = nserror1
-                messages = []
-            }
-            
-            if messages.count == 0 {
-                generateTestData()
-            }
-            
-////         perform a fetch request to fill an array property on your datastore
-        }
-    
-    func generateTestData() {
-        
-        let messageOne: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
-        
-        messageOne.content = "Message 1"
-        messageOne.createdAt = NSDate()
-        
-        let messageTwo: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
-        
-        messageTwo.content = "Message 2"
-        messageTwo.createdAt = NSDate()
-        
-        let messageThree: Message = NSEntityDescription.insertNewObjectForEntityForName("Message", inManagedObjectContext: managedObjectContext) as! Message
-        
-        messageThree.content = "Message 3"
-        messageThree.createdAt = NSDate()
+//        func fetchData ()
+//        {
+//         perform a fetch request to fill an array property on your datastore
+//        }
 
-        saveContext()
-        fetchData()
-    }
-    
     // MARK: - Core Data stack
     // Managed Object Context property getter. This is where we've dropped our "boilerplate" code.
     // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
@@ -92,7 +50,7 @@ class DataStore {
     
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = NSBundle.mainBundle().URLForResource("SlapChat", withExtension: "momd")!
+        let modelURL = NSBundle.mainBundle().URLForResource("<#XCDATAMODELD_NAME#>", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelURL)!
     }()
     
